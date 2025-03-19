@@ -141,6 +141,35 @@ export class MagicPill extends Drug {
 }
 
 /**
+ * Special drug that degrades twice as fast as normal drugs.
+ */
+export class Dafalgan extends Drug {
+  /**
+   * Decreases benefit by 2 if greater than 0.
+   */
+  updateBenefitBeforeExpiration() {
+    if (this.benefit > 0) {
+      this.benefit = Math.max(0, this.benefit - 2);
+    }
+  }
+
+  /**
+   * Decreases benefit by 4 if expired and greater than 0.
+   * This is because:
+   * - Normal drugs degrade by 2 after expiration
+   * - Dafalgan degrades 2x faster than normal drugs
+   * - Therefore, Dafalgan degrades by 4 after expiration
+   */
+  updateBenefitAfterExpiration() {
+    if (this.expiresIn < 0) {
+      if (this.benefit > 0) {
+        this.benefit = Math.max(0, this.benefit - 2);
+      }
+    }
+  }
+}
+
+/**
  * Manages a collection of drugs and their updates.
  */
 export class Pharmacy {
@@ -180,6 +209,9 @@ export class Pharmacy {
         break;
       case "Magic Pill":
         updater = new MagicPill(drug.name, drug.expiresIn, drug.benefit);
+        break;
+      case "Dafalgan":
+        updater = new Dafalgan(drug.name, drug.expiresIn, drug.benefit);
         break;
       default:
         updater = new Drug(drug.name, drug.expiresIn, drug.benefit);
