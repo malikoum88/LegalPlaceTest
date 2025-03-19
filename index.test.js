@@ -111,4 +111,4 @@ describe("Integration tests", () => {
       expect(drug.benefit).toBeLessThanOrEqual(50);
     });
   });
-});
+}); 
