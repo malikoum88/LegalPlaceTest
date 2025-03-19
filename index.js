@@ -3,15 +3,15 @@ import { Drug, Pharmacy } from "./pharmacy";
 import fs from "fs";
 
 /** Number of days to simulate the pharmacy */
-const SIMULATION_DAYS = 30;
+export const SIMULATION_DAYS = 30;
 /** Output file path for simulation results */
-const OUTPUT_FILE = "output.json";
+export const OUTPUT_FILE = "output.json";
 
 /**
  * Creates the initial set of drugs for the simulation.
  * @returns {Drug[]} Array of drugs with their initial states
  */
-const createInitialDrugs = () => [
+export const createInitialDrugs = () => [
   new Drug("Doliprane", 20, 30),
   new Drug("Herbal Tea", 10, 5),
   new Drug("Fervex", 12, 35),
@@ -23,7 +23,7 @@ const createInitialDrugs = () => [
  * @param {number} days - Number of days to simulate
  * @returns {Array} Array of daily drug states
  */
-const simulatePharmacy = (days) => {
+export const simulatePharmacy = (days) => {
   const pharmacy = new Pharmacy(createInitialDrugs());
   const log = [];
 
@@ -39,7 +39,7 @@ const simulatePharmacy = (days) => {
  * @param {Array} results - Simulation results to save
  * @returns {Promise} Promise that resolves when the file is written
  */
-const saveSimulationResults = (results) => {
+export const saveSimulationResults = (results) => {
   const data = JSON.stringify({ result: results }, null, 2).concat("\n");
 
   return new Promise((resolve, reject) => {
@@ -67,4 +67,7 @@ const runSimulation = async () => {
   }
 };
 
-runSimulation();
+// Only run if this is the main module
+if (require.main === module) {
+  runSimulation();
+}
